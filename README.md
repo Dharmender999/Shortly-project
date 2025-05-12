@@ -2,7 +2,7 @@
 
 A simple URL shortener application with user authentication built using Express.js, MongoDB, and bcrypt.
 
-## Features
+## Features 
 - User signup and login with authentication
 - URL Shortening: Users can shorten long URLs to a unique short URL.
 - URL shortening functionality
