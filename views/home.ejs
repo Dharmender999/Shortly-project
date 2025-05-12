@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Url Shortener</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <style>
+        body {
+            padding-top: 90px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(74, 74, 74);
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .container {
+            background-color: #717171;
+            padding: 60px;
+            border-radius: 42px;
+            border: 2px solid black;
+            box-shadow: 0px 0px 20px rgba(0, 128, 255, 0.5);
+            width: 500px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out, pulseBorder 3s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseBorder {
+            0% {
+                box-shadow: 0px 0px 20px rgba(136, 136, 198, 0.5);
+            }
+
+            50% {
+                box-shadow: 0px 0px 30px #c7c7e2;
+            }
+
+            100% {
+                box-shadow: 0px 0px 20px rgba(157, 198, 219, 0.5);
+            }
+        }
+
+        h1 {
+            /* color: #ffffff; */
+            color: #c7c7e2;
+            margin-bottom: 30px;
+            font-size: 28px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #c7c7e2;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 2px solid #555568;
+            background-color: #555454;
+            color: #ffffff;
+            font-size: 20px;
+            transition: border-color 0.3s;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0f0e11;
+            outline: none;
+        }
+
+        button {
+            padding: 16px 32px;
+            background-color: #25251f;
+            color: #cec2c2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #3d3b3d;
+            color: white;
+        }
+
+        p {
+            margin-top: 25px;
+            font-size: 22px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #c7c7e2;
+        }
+        .table-container{
+            margin-top: 30px;
+            /* border: 1px solid red; */
+        }
+        span{
+            color: black;
+        }
+        .head{
+            color: #130d1e;
+            font-size: 20px;
+            font-weight: 800;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>!! Shortly !!</h1>
+            <form action="/shorten" method="post">
+                <label for="longUrl">Enter URL:</label>
+                <input type="text" id="longUrl" name="originalUrl" required>
+                <button type="submit">Generate</button>
+            </form>
+            <% if(shortUrl) { %>
+                <p>Short Url : <a href="<%= shortUrl %>" target="_blank" style="color: rgb(65, 53, 53)">
+                    <%= shortUrl %>
+                </a>
+            </p> 
+            <%} %>
+        </div>
+        <a href="/logout" title="Logout" style="position: absolute; top: 10px; right: 10px; font-size: 24px; color: red;"><i class="fas fa-power-off fa-2x"></i></a>
+        <div class="table-container" >
+            <!-- <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>ShortID</th>
+                        <th>Redirect</th>
+                    </tr>
+                </thead>
+            </table> -->
+            
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col"><span class="head">#</span></th>
+                    <th scope="col"><span class="head">LongURL</span> </th>
+                    <th scope="col"><span class="head">ShortURL</span> </th>
+                    <th scope="col"><span class="head">Clicks</span> </th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% allUrls.forEach((url,index) => { %>
+                    <tr>
+                        <th scope="row"><span><%= index+1 %></span></th>
+                        <td><a href="<%= url.originalUrl %>" target="_blank"><%= url.originalUrl %></a></td>
+                        <td><a href="http://localhost:3000/<%= url.shortid %>" target="_blank">http://localhost:3000/<%= url.shortid %></a></td>
+                        <td><span><%= url.shortid %></span></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+        </div>
+    </body>
+</html>

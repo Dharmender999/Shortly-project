@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auth Demo</title>
+  <!-- Include this in your <head> section if not already present -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+  <h1>Auth Demo</h1>
+  <input id="username" placeholder="Username">
+  <input id="password" placeholder="Password">
+  <button id="login-btn">Login</button>
+</body>
+<script>
+const loginBtn = document.getElementById('login-btn');
+
+loginBtn.addEventListener('click', async () => {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const response = await fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username, password })
+  });
+
+const {token} = await response.json();
+
+  if (token) {
+    localStorage.setItem('token', token);
+    alert('Login successful!');
+  } else {
+    alert('Invalid credentials');
+  }
+
+  const helloResponse = await fetch('http://127.0.0.1:3000/homepage', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}` // Include the token in the Authorization header
+    },
+  });
+
+  const helloData = await helloResponse.text();
+  console.log(helloData); // Output: "Hello, username!"
+  document.body.innerHTML=helloData;
+
+});
+
+</script>
+</html>
